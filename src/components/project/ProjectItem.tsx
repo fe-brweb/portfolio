@@ -30,19 +30,19 @@ const ProjectItem = forwardRef<HTMLDivElement, ProjectItemProps>(
       <div className={cn(variants({ className }))} ref={ref}>
         <Link
           href={`/project/${item.id}`}
-          className="relative aspect-[800/500]"
+          className="relative block aspect-[800/500] w-full"
         >
           {item.thumbUrl && (
             <Image
               src={item.thumbUrl}
-              width={1200}
-              height={750}
+              fill
               alt={item.title}
               priority
+              className="object-cover"
             />
           )}
         </Link>
-        <div className="flex flex-1 flex-col justify-between gap-4 bg-primary">
+        <div className="flex w-full flex-1 flex-col justify-between gap-4 bg-primary">
           <div className="flex flex-1 flex-col gap-4 p-4 text-xs">
             <span className="absolute left-4 top-4 rounded-sm bg-primary px-2 py-1 text-xs leading-none">
               {item.category.name}
