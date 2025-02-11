@@ -1,0 +1,104 @@
+import { getPreviewImageMap, notion, notionClient } from "@/lib/notion-client";
+import { Project } from "@/types/project.type";
+
+const resultData = (result: any): Project => {
+  const images = result.properties?.images?.files.map(
+    (file: any) => file.file?.url || file.external.url,
+  );
+
+  return {
+    id: result.id,
+    title: result.properties.name?.title[0]?.plain_text,
+    description: result.properties.description?.rich_text[0]?.plain_text,
+    contents: result.properties.contents?.rich_text[0]?.plain_text,
+    coverUrl: result.cover?.file?.url || result.cover?.external?.url,
+    thumbUrl:
+      result.properties?.thumbnail?.files[0]?.file?.url ||
+      result.properties?.thumbnail?.files[0]?.external?.url,
+    images: images,
+    tags: result.properties.tags?.multi_select,
+    period: result.properties.period?.date,
+    repository: result.properties.repository?.url,
+    website: result.properties.website?.url,
+    url: result.public_url,
+    category: result.properties.category?.status,
+    status: result.properties.status?.status,
+  };
+};
+
+export class ProjectService {
+  async getAll(filter?: any) {
+    const databaseId = process.env.NOTION_DB_ID;
+    if (databaseId) {
+      const response = await notionClient.databases.query({
+        database_id: databaseId,
+        sorts: [
+          {
+            property: "period",
+            direction: "descending",
+          },
+        ],
+        filter:
+          filter && filter.length > 0
+            ? {
+                and: filter,
+              }
+            : undefined,
+      });
+
+      const data: Project[] = response.results.map((result: any) =>
+        resultData(result),
+      );
+
+      return data;
+    }
+  }
+  async getOne(pageId: string) {
+    const response = await notionClient.pages.retrieve({
+      page_id: pageId,
+    });
+
+    return resultData(response);
+  }
+  async getRecordMap(pageId: string) {
+    const recordMap = await notion.getPage(pageId);
+
+    const previewImageMap = await getPreviewImageMap(recordMap);
+    (recordMap as any).preview_images = previewImageMap;
+
+    return recordMap;
+  }
+  async getAllTags(category?: string) {
+    const databaseId = process.env.NOTION_DB_ID;
+    if (databaseId) {
+      const response = await notionClient.databases.query({
+        database_id: databaseId,
+        sorts: [
+          {
+            property: "period",
+            direction: "descending",
+          },
+        ],
+      });
+
+      const data: Project[] = response.results.map((result: any) =>
+        resultData(result),
+      );
+
+      const uniqueTags = [
+        ...new Map(
+          data
+            .filter((item) =>
+              category
+                ? item.category.name.toLowerCase() === category.toLowerCase()
+                : item,
+            )
+            .flatMap((item) => item.tags)
+            .map((tag) => [tag?.name, tag]),
+        ).values(),
+      ];
+
+      return uniqueTags;
+    }
+  }
+}
