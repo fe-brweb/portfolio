@@ -13,12 +13,14 @@ import {
 } from "notion-utils";
 import pMap from "p-map";
 import pMemoize from "p-memoize";
+import NodeCache from "node-cache";
 
 export const notion = new NotionAPI();
 
 export const notionClient = new Client({
   auth: process.env.NOTION_API_KEY,
 });
+export const cache = new NodeCache({ stdTTL: 3600 });
 
 export async function getPreviewImageMap(
   recordMap: ExtendedRecordMap,

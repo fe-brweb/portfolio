@@ -275,7 +275,7 @@ const SkillContainer = () => {
                 ref={(el: HTMLDivElement) => {
                   el && (itemRefs.current[index] = el);
                 }}
-                className="h-[300px] w-[210px] md:h-[400px] md:w-[290px]"
+                className="h-[320px] w-[210px] md:h-[400px] md:w-[290px]"
                 reset={reset}
               />
             </div>

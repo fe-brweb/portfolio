@@ -1,4 +1,9 @@
-import { getPreviewImageMap, notion, notionClient } from "@/lib/notion-client";
+import {
+  cache,
+  getPreviewImageMap,
+  notion,
+  notionClient,
+} from "@/lib/notion-client";
 import { Project } from "@/types/project.type";
 
 const resultData = (result: any): Project => {
@@ -28,7 +33,11 @@ const resultData = (result: any): Project => {
 
 export class ProjectService {
   async getAll(filter?: any) {
+    const cacheKey = "notion-project-all";
     const databaseId = process.env.NOTION_DB_ID;
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) return cachedData;
+
     if (databaseId) {
       const response = await notionClient.databases.query({
         database_id: databaseId,
@@ -49,23 +58,31 @@ export class ProjectService {
       const data: Project[] = response.results.map((result: any) =>
         resultData(result),
       );
-
+      cache.set(cacheKey, data);
       return data;
     }
   }
   async getOne(pageId: string) {
+    const cacheKey = `notion-project-${pageId}`;
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) return cachedData;
+
     const response = await notionClient.pages.retrieve({
       page_id: pageId,
     });
-
+    cache.set(cacheKey, resultData(response));
     return resultData(response);
   }
   async getRecordMap(pageId: string) {
+    const cacheKey = `notion-project-recordMap-${pageId}`;
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) return cachedData;
+
     const recordMap = await notion.getPage(pageId);
 
     const previewImageMap = await getPreviewImageMap(recordMap);
     (recordMap as any).preview_images = previewImageMap;
-
+    cache.set(cacheKey, recordMap);
     return recordMap;
   }
   async getAllTags(category?: string) {

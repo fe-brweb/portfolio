@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion } from "framer-motion";
-import React, { forwardRef, RefObject } from "react";
+import React, { forwardRef, RefObject, useEffect, useState } from "react";
 
 export interface Skill {
   category: string;
@@ -38,11 +38,18 @@ interface SkillItemProps
 
 const SkillItem = forwardRef<HTMLDivElement, SkillItemProps>(
   ({ item, containerRef, reset, className }, ref) => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+      setIsMobile(isTouchDevice);
+    }, []);
+
     return (
       <div ref={ref}>
         <motion.div
           className={cn(variants({ className }))}
-          drag
+          drag={!isMobile}
           dragConstraints={containerRef}
           dragElastic={0.2}
           transition={{
