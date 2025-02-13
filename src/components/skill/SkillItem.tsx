@@ -1,12 +1,14 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion } from "framer-motion";
-import React, { forwardRef, useEffect, useRef, useState } from "react";
+import React, { forwardRef, RefObject } from "react";
 
 export interface Skill {
   category: string;
   title: string;
+  description?: string;
   position: {
     left?: string;
     right?: string;
@@ -18,135 +20,80 @@ export interface Skill {
   };
 }
 
-const variants = cva("", {
-  variants: {},
-  defaultVariants: {},
-});
+const variants = cva(
+  "cursor-grab touch-none select-none active:cursor-grabbing",
+  {
+    variants: {},
+    defaultVariants: {},
+  },
+);
 
 interface SkillItemProps
   extends React.HTMLAttributes<HTMLElement>,
     VariantProps<typeof variants> {
   item: Skill;
-  index: number;
-  containerRect: {
-    top: number;
-    bottom: number;
-  };
+  containerRef: RefObject<HTMLDivElement>;
+  reset: boolean;
 }
 
 const SkillItem = forwardRef<HTMLDivElement, SkillItemProps>(
-  ({ item, containerRect }, ref) => {
-    const motionRef = useRef<HTMLDivElement>(null);
-    const [rotation, setRotation] = useState(0);
-    const [isDragging, setIsDragging] = useState(false);
-    const [startX, setStartX] = useState(0);
-    const [startRotation, setStartRotation] = useState(0);
-    const [dragConstraints, setDragConstraints] = useState({
-      left: 0,
-      top: 0,
-      right: 0,
-      bottom: 0,
-    });
-    useEffect(() => {
-      if (window !== undefined)
-        setDragConstraints({
-          left: -motionRef.current?.getBoundingClientRect().left!,
-          right:
-            window.innerWidth +
-            -motionRef.current?.getBoundingClientRect().right!,
-          top: containerRect.top,
-          // - motionRef.current?.getBoundingClientRect().top!,
-          bottom: containerRect.bottom,
-          // +            -motionRef.current?.getBoundingClientRect().bottom!,
-        });
-    }, []);
-
-    const handleMouseMove = (event: MouseEvent) => {
-      if (motionRef.current) {
-        const rect = motionRef.current.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        const mouseX = event.clientX;
-        const mouseY = event.clientY;
-
-        const dx = mouseX - centerX;
-        const dy = mouseY - centerY;
-
-        const angle = Math.atan2(dy, dx);
-
-        let angleDeg = (angle * 180) / Math.PI;
-
-        if (isDragging) {
-          const deltaX = mouseX - startX;
-
-          const angleDelta = deltaX * 0.001;
-
-          angleDeg = startRotation + angleDelta;
-
-          angleDeg = Math.max(
-            startRotation - 45,
-            Math.min(startRotation + 45, angleDeg),
-          );
-        }
-        setRotation(angleDeg);
-      }
-    };
-
-    const handleMouseDown = (event: React.MouseEvent) => {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-    };
-
-    const handleMouseUp = () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-
+  ({ item, containerRef, reset, className }, ref) => {
     return (
       <div ref={ref}>
         <motion.div
-          className="h-[400px] w-[293px] cursor-grab touch-none select-none active:cursor-grabbing"
+          className={cn(variants({ className }))}
           drag
-          dragConstraints={dragConstraints}
-          ref={motionRef}
+          dragConstraints={containerRef}
           dragElastic={0.2}
-          onMouseDown={handleMouseDown}
-          animate={{
-            rotate: rotation,
-          }}
           transition={{
             type: "spring",
             stiffness: 10,
             damping: 20,
           }}
+          animate={
+            reset
+              ? { x: 0, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+              : undefined
+          }
+          whileTap={{
+            scale: 2,
+          }}
         >
-          <div className="relative size-full touch-none rounded-lg bg-white px-7 py-6 text-primary shadow-lg shadow-gray-500/10">
-            <button className="relative block h-full touch-none">
-              <span className="block h-full touch-none text-left">
-                <span className="mb-[60px] block touch-none">
-                  <span className="block touch-none">{item.category}</span>
-                </span>
-                <span className="block touch-none">
-                  <span className="block touch-none"></span>
-                </span>
-                <span className="absolute bottom-0 left-0 block touch-none">
-                  <span className="pc-only touch-none">
-                    <span className="pointer-events-none touch-none select-none">
-                      <span className="origin-top touch-none text-[60px]">
-                        <span className="opacity-1 touch-none">
+          <div className="relative size-full touch-none select-none rounded-lg bg-white p-4 text-primary shadow-lg shadow-gray-500/10 md:p-7">
+            <div className="relative block h-full touch-none">
+              <div className="block h-full touch-none text-left">
+                <div className="mb-[10px] block touch-none md:mb-[40px]">
+                  <p className="block touch-none select-none">
+                    {item.category}
+                  </p>
+                </div>
+                <div className="block touch-none">
+                  <div className="flex touch-none select-none flex-col gap-y-1.5 font-pretendard">
+                    {item.description?.split("::").map((text, index) => (
+                      <div
+                        className="items-top tex-sm break-word flex gap-x-1 text-[12px] leading-[14px] md:text-[13px] md:leading-[18px]"
+                        key={index}
+                      >
+                        - <p>{text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-0 block touch-none">
+                  <div className="pc-only touch-none">
+                    <div className="pointer-events-none touch-none select-none">
+                      <div className="origin-top touch-none text-2xl md:text-5xl">
+                        <h4 className="opacity-1 touch-none select-none">
                           {item.title}
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                  <span className="hidden touch-none">{item.title}</span>
-                </span>
-              </span>
-            </button>
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
-        <div className="app-card-observer"></div>
       </div>
     );
   },

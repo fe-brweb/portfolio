@@ -34,7 +34,7 @@ interface Point {
 }
 
 const variants = cva(
-  "relative flex h-dvh items-center justify-center overflow-hidden bg-black",
+  "relative flex h-lvh items-center justify-center overflow-hidden bg-black",
   {
     variants: {},
     defaultVariants: {},

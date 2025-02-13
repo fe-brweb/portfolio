@@ -2,8 +2,9 @@
 
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
+import { useGSAP } from "@gsap/react";
 import { cva, type VariantProps } from "class-variance-authority";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 const items: Array<{
   title: string;
@@ -53,7 +54,7 @@ const items: Array<{
   },
 ];
 
-const variants = cva("h-dvh", {
+const variants = cva("h-lvh overflow-hidden", {
   variants: {},
   defaultVariants: {},
 });
@@ -76,7 +77,7 @@ const AboutTest: React.FC<AboutTestProps> = ({
   const h4Refs = useRef<HTMLDivElement[]>([]);
   const pRefs = useRef<HTMLDivElement[]>([]);
 
-  useEffect(() => {
+  useGSAP(() => {
     if (
       !containerRef.current ||
       !rectRef.current ||
@@ -161,11 +162,6 @@ const AboutTest: React.FC<AboutTestProps> = ({
       start: "top top",
       animation: tl,
     });
-
-    return () => {
-      tl.kill();
-      ScrollTrigger.killAll();
-    };
   }, []);
 
   return (

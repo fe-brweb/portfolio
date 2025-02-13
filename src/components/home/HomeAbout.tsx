@@ -2,9 +2,10 @@
 
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
+import { useGSAP } from "@gsap/react";
 import { cva, type VariantProps } from "class-variance-authority";
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Button } from "../ui/Button";
 import HomeTitle from "./HomeTitle";
 
@@ -14,7 +15,7 @@ HTML, CSS, JavaScript를 비롯하여 Vue, React와 같은 웹 기술들을 다�
 웹 애플리케이션을 만들기 위해 최선을 다하겠습니다`;
 
 const variants = cva(
-  "relative overflow-hidden bg-primary pb-[calc(400dvh+300px)]",
+  "relative overflow-hidden bg-primary pb-[calc(400lvh+300px)]",
   {
     variants: {},
     defaultVariants: {},
@@ -33,15 +34,17 @@ const HomeAbout: React.FC<HomeAboutProps> = ({ className }) => {
   const wordWrapRef = useRef<HTMLDivElement>(null);
   const wordRefs = useRef<HTMLSpanElement[]>([]);
 
-  useEffect(() => {
+  useGSAP(() => {
     if (!wordRefs.current) return;
 
     ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: "center center",
+      start: "top top",
       end: "+=500%",
       pin: true,
       pinSpacing: false,
+      invalidateOnRefresh: true,
+      refreshPriority: 1,
     });
 
     const tl = gsap.timeline({
@@ -102,15 +105,11 @@ const HomeAbout: React.FC<HomeAboutProps> = ({ className }) => {
         },
         "<",
       );
-
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-    };
   }, []);
 
   return (
     <section className={cn(variants({ className }))}>
-      <div className="relative flex place-items-center" ref={sectionRef}>
+      <div className="relative flex h-lvh place-items-center" ref={sectionRef}>
         <div className="container">
           <div className="relative flex flex-col gap-2" ref={containerRef}>
             <HomeTitle className="relative">

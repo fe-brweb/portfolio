@@ -61,6 +61,7 @@ const HomeProject: React.FC<HomeProjectProps> = ({
             pin: true,
             pinSpacing: false,
             invalidateOnRefresh: true,
+            refreshPriority: 2,
           });
 
           gsap.to(boxRefs.current[index], {
@@ -100,7 +101,7 @@ const HomeProject: React.FC<HomeProjectProps> = ({
       <div className="items-top container flex flex-col gap-10 pb-20 pt-10 landscape:h-auto landscape:flex-row landscape:py-0">
         <div className="flex-[40%]">
           <div ref={titleRef}>
-            <div className="flex flex-col items-start justify-center text-white landscape:h-dvh">
+            <div className="flex flex-col items-start justify-center text-white landscape:h-lvh">
               <HomeTitle>Project</HomeTitle>
               <p className="mt-5">
                 더 많은 프로젝트를 확인하려면 <br />

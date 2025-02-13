@@ -2,9 +2,10 @@
 
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
+import { useGSAP } from "@gsap/react";
 import { cva, type VariantProps } from "class-variance-authority";
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Button } from "../ui/Button";
 import HomeTitle from "./HomeTitle";
 
@@ -26,7 +27,7 @@ const skils = [
   "GASP",
 ];
 
-const variants = cva("relative h-dvh overflow-hidden bg-primary", {
+const variants = cva("relative h-lvh overflow-hidden bg-primary", {
   variants: {},
   defaultVariants: {},
 });
@@ -43,7 +44,7 @@ const HomeSkil: React.FC<HomeSkilProps> = ({ className, children }) => {
   const textRef = useRef<HTMLDivElement>(null);
   const perspective = 1000;
 
-  useEffect(() => {
+  useGSAP(() => {
     if (!titleRef.current && wordsRef.current.length === 0) return;
     wordsRef.current.forEach((word) =>
       gsap.set(word.parentNode, { perspective }),
@@ -101,15 +102,10 @@ const HomeSkil: React.FC<HomeSkilProps> = ({ className, children }) => {
       animation: tl,
       scrub: true,
     });
-
-    return () => {
-      tl.kill();
-      ScrollTrigger.killAll();
-    };
   }, []);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <section className={cn(variants({ className }))} ref={sectionRef}>
         <div className="container flex h-[inherit] items-center">
           <h2

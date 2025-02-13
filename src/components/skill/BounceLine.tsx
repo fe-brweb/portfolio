@@ -2,8 +2,9 @@
 
 import { gsap } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
+import { useGSAP } from "@gsap/react";
 import { cva, type VariantProps } from "class-variance-authority";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 const variants = cva("", {
   variants: {},
@@ -18,7 +19,7 @@ const BounceLine: React.FC<BounceLineProps> = ({ className, children }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const pathRef = useRef<SVGPathElement | null>(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     const svg = svgRef.current;
     const path = pathRef.current;
     if (!svg || !path) return;

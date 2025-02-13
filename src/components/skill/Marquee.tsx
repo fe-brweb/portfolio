@@ -1,25 +1,35 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { cva, VariantProps } from "class-variance-authority";
 import { motion } from "framer-motion";
 import {
   Children,
   Fragment,
-  ReactNode,
   useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
 
-type Props = {
-  children: ReactNode;
-  duration?: number;
-  className?: string;
-  reverse?: boolean;
-};
+const variants = cva("relative flex w-full flex-row overflow-hidden", {
+  variants: {},
+  defaultVariants: {},
+});
 
-const Marquee = ({ reverse, duration = 50, children, className }: Props) => {
+interface MarqueeProps
+  extends React.HTMLAttributes<HTMLElement>,
+    VariantProps<typeof variants> {
+  duration?: number;
+  reverse?: boolean;
+}
+
+const Marquee: React.FC<MarqueeProps> = ({
+  reverse,
+  duration = 50,
+  children,
+  className,
+}) => {
   const [isMounted, setIsMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
@@ -76,10 +86,7 @@ const Marquee = ({ reverse, duration = 50, children, className }: Props) => {
   if (!isMounted) return null;
 
   return (
-    <div
-      ref={containerRef}
-      className={cn("relative flex w-full flex-row overflow-hidden", className)}
-    >
+    <div ref={containerRef} className={cn(variants({ className }))}>
       <motion.div
         animate={scroll}
         className="flex min-w-full flex-shrink-0 flex-grow-0 basis-auto flex-row items-center will-change-transform"
