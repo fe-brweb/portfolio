@@ -8,7 +8,7 @@ import { Project } from "@/types/project.type";
 import React from "react";
 
 interface HomeContainerProps {
-  projects?: Project[];
+  projects: Project[];
 }
 
 const HomeContainer: React.FC<HomeContainerProps> = ({ projects }) => {
