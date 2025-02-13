@@ -5,6 +5,7 @@ import {
   notionClient,
 } from "@/lib/notion-client";
 import { Project } from "@/types/project.type";
+import { type ExtendedRecordMap } from "notion-types";
 
 const resultData = (result: any): Project => {
   const images = result.properties?.images?.files.map(
@@ -36,7 +37,7 @@ export class ProjectService {
     const cacheKey = "notion-project-all";
     const databaseId = process.env.NOTION_DB_ID;
     const cachedData = cache.get(cacheKey);
-    if (cachedData) return cachedData;
+    if (cachedData) return cachedData as Project[];
 
     if (databaseId) {
       const response = await notionClient.databases.query({
@@ -65,7 +66,7 @@ export class ProjectService {
   async getOne(pageId: string) {
     const cacheKey = `notion-project-${pageId}`;
     const cachedData = cache.get(cacheKey);
-    if (cachedData) return cachedData;
+    if (cachedData) return cachedData as Project;
 
     const response = await notionClient.pages.retrieve({
       page_id: pageId,
@@ -76,7 +77,7 @@ export class ProjectService {
   async getRecordMap(pageId: string) {
     const cacheKey = `notion-project-recordMap-${pageId}`;
     const cachedData = cache.get(cacheKey);
-    if (cachedData) return cachedData;
+    if (cachedData) return cachedData as ExtendedRecordMap;
 
     const recordMap = await notion.getPage(pageId);
 

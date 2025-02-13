@@ -1,10 +1,10 @@
 import HomeContainer from "@/containers/HomeContainer";
 import { api } from "@/services";
-import { Project } from "@/types/project.type";
 
 async function page() {
-  const projects = (await api.project.getAll()) as Project[];
+  const projects = await api.project.getAll();
 
+  if (!projects) return <></>;
   return <HomeContainer projects={projects} />;
 }
 
