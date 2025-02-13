@@ -31,7 +31,7 @@ const AppPageTitle: React.FC<AppPageTitleProps> = ({ className, children }) => {
         <div className="reltive container flex h-[inherit] w-full place-items-center">
           <motion.h2
             className={cn(
-              "page-title fixed z-20 block w-full origin-left text-2xl font-bold uppercase leading-none text-inherit",
+              "page-title fixed z-[1] block w-full origin-left text-2xl font-bold uppercase leading-none text-inherit",
             )}
             style={motionStyle.title}
           >
