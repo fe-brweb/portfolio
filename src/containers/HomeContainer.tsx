@@ -13,7 +13,7 @@ interface HomeContainerProps {
 
 const HomeContainer: React.FC<HomeContainerProps> = ({ projects }) => {
   return (
-    <article>
+    <article className="bg-primary">
       <HomeIntro />
       <HomeAbout />
       {projects && <HomePortfolio projects={projects} />}

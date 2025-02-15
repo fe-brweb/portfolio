@@ -15,7 +15,7 @@ export interface RouteConfig {
   title: string;
   path: string;
   icon?: React.ReactNode;
-  visibleTitle?: boolean;
+  visibleTitle: boolean;
   headerProps?: AppHeaderProps;
   pageTitleProps?: AppPageTitleProps;
 }
@@ -69,20 +69,28 @@ export const routerConfig: RouteConfig[] = [
     title: "career",
     icon: <LuBriefcaseBusiness />,
     path: "/career",
+    visibleTitle: true,
   },
   {
     title: "comment",
     icon: <RiChat1Line />,
-    path: "/",
+    path: "/comment",
+    visibleTitle: true,
   },
   {
     title: "art",
     icon: <RiBrushAiLine />,
-    path: "/",
+    path: "/art",
+    visibleTitle: true,
   },
   {
     title: "contact",
     icon: <RiMailSendLine />,
-    path: "/",
+    path: "/contact",
+    visibleTitle: false,
+    headerProps: {
+      variant: "transparent",
+      className: "bg-primary",
+    },
   },
 ];
