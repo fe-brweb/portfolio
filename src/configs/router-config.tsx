@@ -60,9 +60,10 @@ export const routerConfig: RouteConfig[] = [
     visibleTitle: true,
     headerProps: {
       variant: "transparent",
+      className: "bg-primary",
     },
     pageTitleProps: {
-      className: "text-white",
+      className: "bg-primary text-white",
     },
   },
   {
