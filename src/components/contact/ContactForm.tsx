@@ -49,10 +49,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ className, children }) => {
         content: (
           <>
             <div className="py-5">
-              <Lottie
+              {/* <Lottie
                 animationData={animationData}
                 className="mx-auto block w-40"
-              />
+              /> */}
               <p className="text-center text-lg">전송이 완료되었습니다</p>
             </div>
           </>
