@@ -44,8 +44,8 @@ const BaseAlertDialog: React.FC<BaseAlertDialogProps> = ({
               {modal.title && <>{modal.title}</>}
             </AlertDialogTitle>
           </AlertDialogHeader>
-          <AlertDialogDescription>
-            {modal.content || children}
+          <AlertDialogDescription asChild>
+            <div>{modal.content || children}</div>
           </AlertDialogDescription>
           <AlertDialogFooter className="flex">
             {modal.cancelText !== null && (
