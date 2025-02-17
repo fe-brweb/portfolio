@@ -16,15 +16,14 @@ const skils = [
   "Nuxt",
   "JavaScript",
   "TypeScript",
-  "Framer Motion",
-  "GASP",
   "TailwindCSS",
   "SASS",
   "HTML5",
   "JQuery",
   "MySQL",
+  "Framer Motion",
   "GASP",
-  "GASP",
+  "ThreeJS",
 ];
 
 const variants = cva("relative h-lvh overflow-hidden bg-primary", {

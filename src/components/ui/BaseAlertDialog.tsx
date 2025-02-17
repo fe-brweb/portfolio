@@ -47,9 +47,15 @@ const BaseAlertDialog: React.FC<BaseAlertDialogProps> = ({
           <AlertDialogDescription>
             {modal.content || children}
           </AlertDialogDescription>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={modal.onClose}>취소</AlertDialogCancel>
-            <AlertDialogAction onClick={modal.onClose}>확인</AlertDialogAction>
+          <AlertDialogFooter className="flex">
+            {modal.cancelText !== null && (
+              <AlertDialogCancel onClick={modal.onClose} className="flex-1">
+                {modal.cancelText || "취소"}
+              </AlertDialogCancel>
+            )}
+            <AlertDialogAction onClick={modal.onClose} className="flex-1">
+              확인
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

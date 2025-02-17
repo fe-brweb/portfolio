@@ -10,6 +10,7 @@ import {
   RiHome9Line,
   RiMailSendLine,
 } from "react-icons/ri";
+import { cn } from "@/lib/utils";
 
 export interface RouteConfig {
   title: string;
@@ -88,10 +89,12 @@ export const routerConfig: RouteConfig[] = [
     title: "contact",
     icon: <RiMailSendLine />,
     path: "/contact",
-    visibleTitle: false,
+    visibleTitle: true,
     headerProps: {
       variant: "transparent",
-      className: "bg-primary",
+    },
+    pageTitleProps: {
+      className: "text-white block landscape:hidden",
     },
   },
 ];

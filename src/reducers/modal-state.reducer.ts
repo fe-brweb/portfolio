@@ -3,12 +3,11 @@ import { StoreApi } from "zustand";
 interface ModalProps {
   title?: React.ReactNode | null;
   content?: React.ReactNode | null;
+  cancelText?: React.ReactNode | null;
 }
 
-export interface ModalState {
+export interface ModalState extends ModalProps {
   isOpen: boolean;
-  title?: React.ReactNode | null;
-  content?: React.ReactNode | null;
   onOpen: (props: ModalProps) => void;
   onClose: () => void;
 }
@@ -25,6 +24,7 @@ const dispatch = (
       isOpen: value,
       title: props?.title,
       content: props?.content,
+      cancelText: props?.cancelText,
     },
   }));
 };
