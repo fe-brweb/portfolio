@@ -121,7 +121,7 @@ const AppWheelNav: React.FC<AppWheelNavProps> = ({ className }) => {
 
     // requestAnimationFrame을 통해 회전 값 업데이트
     const updateRotation = () => {
-      previousRotation.current += delta;
+      previousRotation.current -= delta;
       setRotation(previousRotation.current);
     };
 
@@ -234,7 +234,12 @@ const AppWheelNav: React.FC<AppWheelNavProps> = ({ className }) => {
                         >
                           <button
                             onClick={(e) => {
-                              router.push(item.path);
+                              if (item.external) {
+                                window.open(item.path, "_blank");
+                              } else {
+                                router.push(item.path);
+                              }
+
                               wheelNav.onClose();
                             }}
                             className="block w-full select-none text-center"

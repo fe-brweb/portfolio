@@ -155,6 +155,7 @@ const EarthGlb: React.FC<EarthGlbProps> = ({ className, children }) => {
       camera.position.y += (cursor.y * 50 - camera.position.y) * 0.5;
 
       renderer.render(scene, camera);
+      sceneRef.current?.appendChild(renderer.domElement);
       animationFrameRef.current = requestAnimationFrame(animate);
     };
 
@@ -174,7 +175,6 @@ const EarthGlb: React.FC<EarthGlbProps> = ({ className, children }) => {
     window.addEventListener("mousemove", handleMouseMove);
 
     animationFrameRef.current = requestAnimationFrame(animate);
-    sceneRef.current?.appendChild(renderer.domElement);
 
     return () => {
       window.removeEventListener("resize", handleResize);

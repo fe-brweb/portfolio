@@ -69,10 +69,10 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ items, tags }) => {
         <div className="container">
           <div className="flex flex-col gap-4">
             {/* Category 필터 */}
-            <div className="flex flex-wrap gap-4 rounded-sm bg-black/30 p-4 text-white">
+            <div className="flex flex-wrap gap-2 rounded-sm text-white">
               <button
                 onClick={() => updateCategory("All")}
-                className={cn("", {
+                className={cn("min-w-20 rounded-full bg-black/10 px-2 py-1", {
                   "text-purple-600": !searchParams.get("category"),
                 })}
               >
@@ -81,7 +81,7 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ items, tags }) => {
               {["Work", "Toy"].map((category) => (
                 <button
                   onClick={() => updateCategory(category)}
-                  className={cn("", {
+                  className={cn("min-w-20 rounded-full bg-black/10 px-2 py-1", {
                     "text-purple-600":
                       searchParams.get("category") === category,
                   })}
@@ -92,7 +92,7 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ items, tags }) => {
               ))}
             </div>
             {/* Tag 필터 */}
-            <div className="flex flex-wrap gap-4 rounded-sm bg-black/30 p-4 uppercase text-white">
+            {/* <div className="flex flex-wrap gap-4 rounded-sm bg-black/30 p-4 uppercase text-white">
               {tags.map((tag) => (
                 <button
                   onClick={() => toggleTag(tag?.name)}
@@ -104,7 +104,7 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ items, tags }) => {
                   {tag?.name}
                 </button>
               ))}
-            </div>
+            </div> */}
           </div>
 
           <div className="mt-5">{items && <ProjectList items={items} />}</div>
