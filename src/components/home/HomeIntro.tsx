@@ -1,6 +1,8 @@
 "use client";
 
+import { ScrollTrigger } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
+import { useGSAP } from "@gsap/react";
 import { cva, VariantProps } from "class-variance-authority";
 import React, { useEffect, useRef } from "react";
 import { BiLogoFlutter, BiLogoTypescript } from "react-icons/bi";
@@ -13,6 +15,7 @@ import {
 } from "react-icons/ri";
 import { TbBrandNuxt } from "react-icons/tb";
 import { TiHtml5 } from "react-icons/ti";
+import MainTitle from "../ui/MainTitle";
 
 const items = [
   { background: "#28BC72", scale: 3.0, icon: <RiVuejsLine /> },
@@ -34,7 +37,7 @@ interface Point {
 }
 
 const variants = cva(
-  "relative flex h-lvh items-center justify-center overflow-hidden bg-black",
+  "flex h-lvh w-full items-center justify-center overflow-hidden bg-black",
   {
     variants: {},
     defaultVariants: {},
@@ -47,6 +50,7 @@ interface HomeIntroProps
 
 const HomeIntro: React.FC<HomeIntroProps> = ({ className }) => {
   const bgRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number>(16);
   const degreeRef = useRef(0);
   const slopeRef = useRef(0);
@@ -198,11 +202,21 @@ const HomeIntro: React.FC<HomeIntroProps> = ({ className }) => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  useGSAP(() => {
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top top",
+      end: "bottom top",
+      pin: true,
+      pinSpacing: false,
+    });
+  }, []);
+
   return (
-    <section className={cn(variants({ className }))}>
+    <section className={cn(variants({ className }))} ref={sectionRef}>
       <div
-        className="absolute size-full bg-[url(/assets/images/texture.svg)] bg-repeat opacity-10"
-        style={{ backgroundSize: "400px 400px" }}
+        className="absolute size-full bg-[url(/assets/images/noise.gif)] bg-repeat opacity-10"
+        style={{ backgroundSize: "160px 120px" }}
       ></div>
       <div
         ref={bgRef}
@@ -234,11 +248,7 @@ const HomeIntro: React.FC<HomeIntroProps> = ({ className }) => {
         </ul>
       </div>
       <div className="container relative">
-        <h1 className="text-center font-bold leading-none text-white portrait:text-[10vw] landscape:text-[5vw]">
-          UX/UI INTERACTIVE
-          <br />
-          FE DEVELOPER
-        </h1>
+        <MainTitle />
       </div>
     </section>
   );

@@ -4,9 +4,7 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import { cva, type VariantProps } from "class-variance-authority";
-import Link from "next/link";
 import React, { useRef } from "react";
-import { Button } from "../ui/Button";
 import HomeTitle from "./HomeTitle";
 
 const skils = [
@@ -26,7 +24,7 @@ const skils = [
   "ThreeJS",
 ];
 
-const variants = cva("relative h-lvh overflow-hidden bg-primary", {
+const variants = cva("relative mb-[5000px] h-lvh overflow-hidden bg-primary", {
   variants: {},
   defaultVariants: {},
 });
@@ -96,7 +94,14 @@ const HomeSkil: React.FC<HomeSkilProps> = ({ className, children }) => {
     ScrollTrigger.create({
       trigger: sectionRef.current,
       pin: true,
-      start: "center center",
+      pinSpacing: false,
+      start: "top top",
+      end: () => "+=" + (5000 + window.innerHeight),
+    });
+
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top top",
       end: "+=5000",
       animation: tl,
       scrub: true,
@@ -104,52 +109,45 @@ const HomeSkil: React.FC<HomeSkilProps> = ({ className, children }) => {
   }, []);
 
   return (
-    <div className="overflow-hidden">
-      <section className={cn(variants({ className }))} ref={sectionRef}>
-        <div className="container flex h-[inherit] items-center">
-          <h2
-            ref={titleRef}
-            className="flex flex-wrap justify-center gap-5 text-white"
-          >
-            {skils.map((word, index) => (
+    <section className={cn(variants({ className }))} ref={sectionRef}>
+      <div className="container flex h-[inherit] items-center">
+        <h2
+          ref={titleRef}
+          className="flex flex-wrap justify-center gap-5 text-white"
+        >
+          {skils.map((word, index) => (
+            <span
+              key={index}
+              className="inline-block"
+              style={{
+                perspective: `${perspective}px`,
+              }}
+            >
               <span
-                key={index}
-                className="inline-block"
-                style={{
-                  perspective: `${perspective}px`,
+                ref={(el: HTMLSpanElement) => {
+                  wordsRef.current[index] = el;
                 }}
+                className="inline-block origin-left font-bold leading-none portrait:text-[10.5vw] landscape:text-[4.5vw]"
               >
-                <span
-                  ref={(el: HTMLSpanElement) => {
-                    wordsRef.current[index] = el;
-                  }}
-                  className="inline-block origin-left font-bold leading-none portrait:text-[10.5vw] landscape:text-[4.5vw]"
-                >
-                  {word}
-                </span>
+                {word}
               </span>
-            ))}
-          </h2>
+            </span>
+          ))}
+        </h2>
+      </div>
+      <div className="absolute left-0 top-0 size-full">
+        <div
+          className="absolute left-1/2 top-1/2 z-10 size-[100%] origin-center -translate-x-1/2 -translate-y-1/2 bg-secondary [clip-path:circle(0%)]"
+          ref={circleRef}
+        ></div>
+        <div
+          className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-center font-bold uppercase text-secondary-foreground opacity-0"
+          ref={textRef}
+        >
+          <HomeTitle>Skills</HomeTitle>
         </div>
-        <div className="absolute left-0 top-0 size-full">
-          <div
-            className="absolute left-1/2 top-1/2 z-10 size-[100%] origin-center -translate-x-1/2 -translate-y-1/2 bg-secondary [clip-path:circle(0%)]"
-            ref={circleRef}
-          ></div>
-          <div
-            className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-center font-bold uppercase text-secondary-foreground opacity-0"
-            ref={textRef}
-          >
-            <HomeTitle>Skills</HomeTitle>
-            <div className="mt-5">
-              <Button asChild variant="primary" size="lg" shape="rounded">
-                <Link href="/skill">More View</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 

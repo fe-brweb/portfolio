@@ -130,7 +130,7 @@ const HomeProject: React.FC<HomeProjectProps> = ({
                     el && (boxRefs.current[index] = el);
                   }}
                   key={item.id}
-                  className="relative top-0 inline-block w-full brightness-100 landscape:block landscape:-rotate-12"
+                  className="relative top-0 inline-block w-full brightness-100 landscape:block"
                 >
                   <ProjectItem item={item} />
                 </div>

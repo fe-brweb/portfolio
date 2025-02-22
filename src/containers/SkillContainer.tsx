@@ -234,7 +234,7 @@ const SkillContainer = () => {
   }, []);
 
   return (
-    <article className="overflow-hidden bg-primary">
+    <article className="relative overflow-hidden bg-primary">
       <BounceText className="my-10">
         <Marquee duration={5}>
           <span className="block px-5 text-[10.9375vw]">
@@ -251,7 +251,7 @@ const SkillContainer = () => {
             setReset(true);
             setTimeout(() => setReset(false), 1000);
           }}
-          className="fixed bottom-10 right-10 z-[20] text-white"
+          className="absolute bottom-0 right-10 z-[20] text-white"
         >
           <IoRefreshOutline size={40} />
           <span className="sr-only">위치 초기화</span>

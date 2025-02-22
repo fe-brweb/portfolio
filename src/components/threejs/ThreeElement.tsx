@@ -1,6 +1,6 @@
 "use client";
 import { useFrame, useThree } from "@react-three/fiber";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 const ThreeElement = () => {
@@ -37,7 +37,7 @@ const ThreeElement = () => {
         <mesh ref={boxCopyRef}>
           <meshStandardMaterial color="green" />
         </mesh>
-        <mesh position={[2, 0, 0]}>
+        <mesh position={[2, 0, 0]} onClick={() => console.log("onclick")}>
           <boxGeometry />
           <meshBasicMaterial
             color="red"

@@ -63,7 +63,7 @@ const SkillItem = forwardRef<HTMLDivElement, SkillItemProps>(
               : undefined
           }
           whileTap={{
-            scale: 2,
+            scale: !isMobile ? 2 : 0,
           }}
         >
           <div className="relative size-full touch-none select-none rounded-lg bg-white p-4 text-primary shadow-lg shadow-gray-500/10 md:p-7">

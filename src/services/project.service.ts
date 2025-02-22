@@ -5,6 +5,7 @@ import {
   notionClient,
 } from "@/lib/notion-client";
 import { Project } from "@/types/project.type";
+import { isArray } from "lodash";
 import { type ExtendedRecordMap } from "notion-types";
 
 const resultData = (result: any): Project => {
@@ -28,13 +29,14 @@ const resultData = (result: any): Project => {
     website: result.properties.website?.url,
     url: result.public_url,
     category: result.properties.category?.status,
+    isMain: result.properties.isMain.checkbox,
     status: result.properties.status?.status,
   };
 };
 
 export class ProjectService {
-  async getAll(filter?: any) {
-    const cacheKey = "notion-project-all";
+  async getAll(key: string, filter?: any) {
+    const cacheKey = key;
     const databaseId = process.env.NOTION_DB_ID;
     const cachedData = cache.get(cacheKey);
     if (cachedData) return cachedData as Project[];
@@ -50,9 +52,11 @@ export class ProjectService {
         ],
         filter:
           filter && filter.length > 0
-            ? {
-                and: filter,
-              }
+            ? isArray(filter)
+              ? {
+                  and: filter,
+                }
+              : filter
             : undefined,
       });
 

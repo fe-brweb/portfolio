@@ -34,7 +34,7 @@ async function page({
     });
   }
 
-  const items = await api.project.getAll(filters);
+  const items = await api.project.getAll("notion-project-all", filters);
   const allTags = (await api.project.getAllTags(category)) as Tag[];
 
   if (!items || !allTags) return;

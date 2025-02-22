@@ -34,5 +34,6 @@ export interface Project {
   tags?: Tag[];
   period?: Period;
   repository?: string;
+  isMain?: boolean;
   website?: string;
 }

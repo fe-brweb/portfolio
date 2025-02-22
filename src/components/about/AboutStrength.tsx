@@ -21,7 +21,7 @@ const items: Array<{
 }> = [
   {
     title: "Goal Directed",
-    desc: "원하는 결과에 도달할때 까지 노력합니다",
+    desc: "능동적이고 적극적인 문제해결을 통해 원하는 결과에 도달할때 까지 노력합니다",
     x: "0%",
     y: "-84%",
     line: {
@@ -43,8 +43,8 @@ const items: Array<{
     },
   },
   {
-    title: "Collaboration Skills",
-    desc: "관련 지식 및 유연한 커뮤니케이션으로 협업 능력 발휘",
+    title: "Continuous Self-Development",
+    desc: "새로운 프로젝트와 도전을 통해 지속적으로 학습하고 성장하여 역량을 확대합니다",
     x: "94%",
     y: "84%",
     line: {
@@ -54,7 +54,7 @@ const items: Array<{
   },
 ];
 
-const variants = cva("h-lvh overflow-hidden", {
+const variants = cva("h-lvh overflow-hidden bg-primary", {
   variants: {},
   defaultVariants: {},
 });
@@ -68,7 +68,7 @@ const AboutTest: React.FC<AboutTestProps> = ({
   children,
   ...props
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const rectRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<HTMLDivElement[]>([]);
@@ -79,7 +79,7 @@ const AboutTest: React.FC<AboutTestProps> = ({
 
   useGSAP(() => {
     if (
-      !containerRef.current ||
+      !sectionRef.current ||
       !rectRef.current ||
       itemRefs.current.length === 0 ||
       !lineWrapRef.current ||
@@ -156,16 +156,26 @@ const AboutTest: React.FC<AboutTestProps> = ({
       );
 
     ScrollTrigger.create({
-      trigger: containerRef.current,
+      trigger: sectionRef.current,
+      scrub: true,
+      start: "top-=100% top",
+      animation: tl,
+    });
+
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
       pin: true,
       scrub: true,
       start: "top top",
-      animation: tl,
     });
   }, []);
 
   return (
-    <div className={cn(variants({ className }))} ref={containerRef} {...props}>
+    <section
+      className={cn(variants({ className }))}
+      ref={sectionRef}
+      {...props}
+    >
       <div className="container flex h-[inherit] items-center justify-center">
         <div
           ref={rectRef}
@@ -186,7 +196,7 @@ const AboutTest: React.FC<AboutTestProps> = ({
               className="absolute flex aspect-square w-1/3 origin-center flex-col items-center justify-center bg-white p-4 text-center opacity-100"
             >
               <h4
-                className="text-[max(calc(4vw/920*var(--vh,1vh)*100),18px)] font-medium leading-none text-violet-900 opacity-0"
+                className="text-[max(calc(24/920*var(--vh,1vh)*100),20px)] font-medium leading-none text-violet-900 opacity-0"
                 ref={(el) => {
                   el && (h4Refs.current[index] = el);
                 }}
@@ -194,7 +204,7 @@ const AboutTest: React.FC<AboutTestProps> = ({
                 {item.title}
               </h4>
               <p
-                className="mt-1 break-keep text-[max(calc(16/920*var(--vh,1vh)*100),12px)] text-gray-600 opacity-0 portrait:hidden"
+                className="mt-4 break-keep text-[max(calc(16/920*var(--vh,1vh)*100),12px)] text-gray-800 opacity-0 portrait:hidden"
                 ref={(el) => {
                   el && (pRefs.current[index] = el);
                 }}
@@ -225,7 +235,7 @@ const AboutTest: React.FC<AboutTestProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

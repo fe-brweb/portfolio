@@ -4,10 +4,8 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores";
 import { cva, type VariantProps } from "class-variance-authority";
-import Lottie from "lottie-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import animationData from "../../../public/assets/json/success_check.json";
 import LoadingSpinner from "../ui/LoadingSpinner";
 
 const variants = cva("relative z-[1] flex min-h-lvh landscape:items-center", {
@@ -116,7 +114,6 @@ const ContactForm: React.FC<ContactFormProps> = ({ className, children }) => {
                     id="name"
                     className="h-10 w-full rounded-sm bg-gray-100 p-2"
                     {...createContaact.register("name")}
-                    autoFocus
                   />
                 </div>
               </div>
