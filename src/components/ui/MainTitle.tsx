@@ -6,9 +6,6 @@ const DynamicSVGFilter = () => {
   const [toggleBlur, setToggleBlur] = useState(false);
   const blurRef = useRef<SVGFEGaussianBlurElement>(null);
   const matrixRef = useRef<SVGFEColorMatrixElement>(null);
-  //   const opacityRef = useRef<HTMLSpanElement>(null);
-
-  const opacity = useTransform(scrollY, [0, window.innerHeight / 2], [0, 1]);
 
   // 문자열로 지정된 기본 matrix 값
   const defaultMatrix = "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0";
