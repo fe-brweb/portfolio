@@ -39,7 +39,7 @@ export class ProjectService {
     const cacheKey = key;
     const databaseId = process.env.NOTION_DB_ID;
     const cachedData = cache.get(cacheKey);
-    // if (cachedData) return cachedData as Project[];
+    if (cachedData) return cachedData as Project[];
 
     if (databaseId) {
       const response = await notionClient.databases.query({
@@ -84,7 +84,7 @@ export class ProjectService {
   async getRecordMap(pageId: string) {
     const cacheKey = `notion-project-recordMap-${pageId}`;
     const cachedData = cache.get(cacheKey);
-    // if (cachedData) return cachedData as ExtendedRecordMap;
+    if (cachedData) return cachedData as ExtendedRecordMap;
 
     const recordMap = await notion.getPage(pageId);
 

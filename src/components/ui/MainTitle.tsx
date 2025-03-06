@@ -7,7 +7,7 @@ const DynamicSVGFilter = () => {
   const matrixRef = useRef<SVGFEColorMatrixElement>(null);
 
   // 블러 값 애니메이션 (0 ~ 35 범위)
-  const blurValue = useTransform(scrollY, [0, 200], [0, 35]);
+  const blurValue = useTransform(scrollY, [0, 200], [0, 40]);
 
   // feColorMatrix 값 보간
   const matrixValues = useTransform(
