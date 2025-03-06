@@ -69,7 +69,7 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ items, tags }) => {
         <div className="container">
           <div className="flex flex-col gap-4">
             {/* Category 필터 */}
-            <div className="flex flex-wrap gap-2 rounded-sm text-white">
+            {/* <div className="flex flex-wrap gap-2 rounded-sm text-white">
               <button
                 onClick={() => updateCategory("All")}
                 className={cn("min-w-20 rounded-full bg-black/10 px-2 py-1", {
@@ -90,7 +90,7 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ items, tags }) => {
                   {category}
                 </button>
               ))}
-            </div>
+            </div> */}
             {/* Tag 필터 */}
             {/* <div className="flex flex-wrap gap-4 rounded-sm bg-black/30 p-4 uppercase text-white">
               {tags.map((tag) => (
