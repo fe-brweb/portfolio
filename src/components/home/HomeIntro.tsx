@@ -48,7 +48,7 @@ interface HomeIntroProps
   extends React.HTMLAttributes<HTMLElement>,
     VariantProps<typeof variants> {}
 
-const HomeIntro: React.FC<HomeIntroProps> = ({ className }) => {
+const HomeIntro: React.FC<HomeIntroProps> = ({ className, ...props }) => {
   const bgRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number>(16);
@@ -213,7 +213,11 @@ const HomeIntro: React.FC<HomeIntroProps> = ({ className }) => {
   }, []);
 
   return (
-    <section className={cn(variants({ className }))} ref={sectionRef}>
+    <section
+      className={cn(variants({ className }))}
+      {...props}
+      ref={sectionRef}
+    >
       <div
         className="absolute size-full bg-[url(/assets/images/noise.gif)] bg-repeat opacity-10"
         style={{ backgroundSize: "160px 120px" }}
@@ -247,8 +251,11 @@ const HomeIntro: React.FC<HomeIntroProps> = ({ className }) => {
           ))}
         </ul>
       </div>
-      <div className="container relative">
+      <div className="container">
         <MainTitle />
+      </div>
+      <div className="absolute left-0 right-0 z-10 text-center text-white portrait:bottom-[20vh] landscape:bottom-[10vh]">
+        <span>SCROLL DOWN</span>
       </div>
     </section>
   );

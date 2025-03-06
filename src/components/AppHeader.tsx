@@ -48,13 +48,21 @@ const AppHeader: React.FC<AppHeaderProps> = ({ variant, className }) => {
             </Link>
           </motion.h1>
           <div className="ml-auto">
+            {/*         
+              <>
+                <Link href="/" className="ml-auto text-2xl">
+                  <RiHome9Line />
+                </Link>
+              </> */}
             <button
               onClick={() => wheelNav.onOpen()}
               className={cn(
                 "border-gradient",
                 "relative flex size-8 place-content-center place-items-center rounded-full",
               )}
-            ></button>
+            >
+              <span className="sr-only">메뉴 열기</span>
+            </button>
           </div>
         </div>
       </div>

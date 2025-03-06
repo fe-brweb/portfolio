@@ -1,10 +1,7 @@
-import AppLayout from "@/components/AppLayout";
-import AppWheelNav from "@/components/ui/AppWheelNav";
 import { cn } from "@/lib/utils";
+import "@/styles/globals.scss";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "@/styles/globals.scss";
-import BaseAlertDialog from "@/components/ui/BaseAlertDialog";
 
 const pretendard = localFont({
   src: "../../public/assets/fonts/PretendardVariable.woff2",
@@ -35,13 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(oswald.variable, pretendard.variable)}>
-        {/* <AppSmoothScroll> */}
-        <div className="flex w-full flex-col">
-          <AppLayout>{children}</AppLayout>
-          <AppWheelNav />
-        </div>
-        {/* </AppSmoothScroll> */}
-        <BaseAlertDialog />
+        {children}
       </body>
     </html>
   );

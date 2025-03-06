@@ -21,7 +21,7 @@ interface HomeAboutProps
   extends React.HTMLAttributes<HTMLElement>,
     VariantProps<typeof variants> {}
 
-const HomeAbout: React.FC<HomeAboutProps> = ({ className }) => {
+const HomeAbout: React.FC<HomeAboutProps> = ({ className, ...props }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -51,37 +51,33 @@ const HomeAbout: React.FC<HomeAboutProps> = ({ className }) => {
       },
     });
 
-    tl.to(titleRef.current, {
-      opacity: 1,
-      duration: 1,
-    })
-      .fromTo(
-        wordWrapRef.current,
-        {
-          backgroundPositionX: "100%",
-        },
-        {
-          backgroundPositionX: "0%",
-          duration: 10,
-        },
-      )
-      .to(titleRef.current, {
-        opacity: 0,
-        duration: 5,
-      })
-      .to(
-        wordWrapRef.current,
-        {
-          opacity: 0,
-          duration: 5,
-        },
-        "<",
-      );
+    tl.fromTo(
+      wordWrapRef.current,
+      {
+        backgroundPositionX: "100%",
+      },
+      {
+        backgroundPositionX: "0%",
+        duration: 10,
+      },
+    );
+    // .to(titleRef.current, {
+    //   opacity: 0,
+    //   duration: 5,
+    // })
+    // .to(
+    //   wordWrapRef.current,
+    //   {
+    //     opacity: 0,
+    //     duration: 5,
+    //   },
+    //   "<",
+    // );
   }, []);
 
   return (
     <>
-      <section className={cn(variants({ className }))}>
+      <section className={cn(variants({ className }))} {...props}>
         <div
           className="relative flex h-lvh place-items-center"
           ref={sectionRef}
@@ -89,10 +85,7 @@ const HomeAbout: React.FC<HomeAboutProps> = ({ className }) => {
           <div className="container">
             <div className="relative flex flex-col gap-2" ref={containerRef}>
               <HomeTitle>
-                <span
-                  className="inline-block text-white opacity-0"
-                  ref={titleRef}
-                >
+                <span className="inline-block text-white" ref={titleRef}>
                   ABOUT
                 </span>
               </HomeTitle>
@@ -106,7 +99,7 @@ const HomeAbout: React.FC<HomeAboutProps> = ({ className }) => {
               </div>
               <div className="relative mt-5">
                 <span
-                  className="inline font-pretendard font-medium text-transparent portrait:text-[6vw] portrait:leading-[9vw] landscape:text-[1.8vw] landscape:leading-[2.6vw]"
+                  className="inline font-pretendard font-medium leading-[1.5] text-transparent portrait:text-[4vw] landscape:text-[1.8vw]"
                   ref={wordWrapRef}
                   style={{
                     background:

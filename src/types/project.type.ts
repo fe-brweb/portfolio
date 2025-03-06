@@ -35,5 +35,6 @@ export interface Project {
   period?: Period;
   repository?: string;
   isMain?: boolean;
+  isMoreView?: boolean;
   website?: string;
 }

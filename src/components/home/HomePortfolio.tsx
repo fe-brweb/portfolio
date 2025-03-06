@@ -29,6 +29,7 @@ const HomeProject: React.FC<HomeProjectProps> = ({
   projects,
   count = 5,
   className,
+  ...props
 }) => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
@@ -90,14 +91,14 @@ const HomeProject: React.FC<HomeProjectProps> = ({
         }
       });
     });
-
-    return () => {
-      ScrollTrigger.killAll();
-    };
   }, []);
 
   return (
-    <section className={cn(variants({ className }))} ref={sectionRef}>
+    <section
+      className={cn(variants({ className }))}
+      {...props}
+      ref={sectionRef}
+    >
       <div className="items-top container flex flex-col gap-10 pb-20 pt-10 landscape:h-auto landscape:flex-row landscape:py-0">
         <div className="flex-[40%]">
           <div ref={titleRef}>

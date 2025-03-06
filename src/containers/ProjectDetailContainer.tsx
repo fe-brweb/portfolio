@@ -19,7 +19,7 @@ const ProjectDetailContainer: React.FC<ProjectDetailContainerProps> = ({
   recordMap,
 }) => {
   return (
-    <article className="bg-white">
+    <article className="bg-white pt-[60px]">
       <AppPageTitle>{item.title}</AppPageTitle>
       <section className="relative min-h-[300px] bg-primary py-10">
         <div className="container max-w-[1000px]">

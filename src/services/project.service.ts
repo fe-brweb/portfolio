@@ -5,7 +5,6 @@ import {
   notionClient,
 } from "@/lib/notion-client";
 import { Project } from "@/types/project.type";
-import { isArray } from "lodash";
 import { type ExtendedRecordMap } from "notion-types";
 
 const resultData = (result: any): Project => {
@@ -30,6 +29,7 @@ const resultData = (result: any): Project => {
     url: result.public_url,
     category: result.properties.category?.status,
     isMain: result.properties.isMain.checkbox,
+    isMoreView: result.properties.isMoreView.checkbox,
     status: result.properties.status?.status,
   };
 };
@@ -50,14 +50,17 @@ export class ProjectService {
             direction: "descending",
           },
         ],
-        filter:
-          filter && filter.length > 0
-            ? isArray(filter)
-              ? {
-                  and: filter,
-                }
-              : filter
-            : undefined,
+        filter: {
+          and: [
+            ...(Array.isArray(filter) ? filter : [filter]),
+            {
+              property: "isVisible",
+              checkbox: {
+                equals: true,
+              },
+            },
+          ],
+        },
       });
 
       const data: Project[] = response.results.map((result: any) =>

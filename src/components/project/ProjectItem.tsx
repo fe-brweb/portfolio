@@ -28,30 +28,47 @@ const ProjectItem = forwardRef<HTMLDivElement, ProjectItemProps>(
   ({ className, item }, ref) => {
     return (
       <div className={cn(variants({ className }))} ref={ref}>
-        <Link
-          href={`/project/${item.id}`}
-          className="relative block aspect-[800/500] w-full"
-        >
+        <div className="relative block aspect-[800/500] w-full">
           {item.thumbUrl && (
             <Image
               src={item.thumbUrl}
               fill
-              alt={item.title}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               priority
+              alt={item.title}
               className="object-cover"
             />
           )}
-        </Link>
-        <div className="flex w-full flex-1 flex-col justify-between gap-4 bg-primary">
+          {item.isMoreView && (
+            <Link
+              href={`/project/${item.id}`}
+              className="absolute left-0 top-0 block size-full"
+            >
+              <span className="sr-only">상세 보기</span>
+            </Link>
+          )}
+        </div>
+        <div className="flex w-full flex-1 flex-col justify-between gap-4 border-t border-white/10 bg-primary">
           <div className="flex flex-1 flex-col gap-4 p-4 text-xs">
-            <span className="absolute left-4 top-4 rounded-sm bg-primary px-2 py-1 text-xs leading-none">
-              {item.category.name}
-            </span>
-            {item.period && (
-              <p className="absolute right-4 top-4 rounded-sm bg-primary px-2 py-1 text-xs leading-none">
-                {item.period.start} {item.period.end && `~ ${item.period.end}`}
-              </p>
-            )}
+            <p className="flex justify-between gap-x-10">
+              <span
+                className={cn(
+                  "inline-flex rounded-sm bg-primary px-2 py-1 text-xs leading-none",
+                  item.category.name.toLocaleLowerCase() === "work" &&
+                    "bg-purple-950",
+                  item.category.name.toLocaleLowerCase() === "toy" &&
+                    "bg-teal-700",
+                )}
+              >
+                {item.category.name}
+              </span>
+              {item.period && (
+                <span className="inline-flex rounded-sm bg-white/10 px-2 py-1 text-xs leading-none">
+                  {item.period.start}{" "}
+                  {item.period.end && `~ ${item.period.end}`}
+                </span>
+              )}
+            </p>
             {item.title && <h3 className="text-xl font-bold">{item.title}</h3>}
             {item.description && <p>{item.description}</p>}
             {item.tags && item.tags.length && (
@@ -83,14 +100,15 @@ const ProjectItem = forwardRef<HTMLDivElement, ProjectItemProps>(
               )}
             </div>
             <div>
-              <Link href={`/project/${item.id}`}>
-                <FiArrowRightCircle />
-                <span className="sr-only">상세 보기</span>
-              </Link>
+              {item.isMoreView && (
+                <Link href={`/project/${item.id}`}>
+                  <FiArrowRightCircle />
+                  <span className="sr-only">상세 보기</span>
+                </Link>
+              )}
             </div>
           </div>
         </div>
-        {/* </Link> */}
       </div>
     );
   },

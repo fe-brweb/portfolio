@@ -1,6 +1,7 @@
 "use client";
 
 import { routerConfig } from "@/configs/router-config";
+import { useRouterConfig } from "@/hooks/useRouterConfig";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -19,8 +20,9 @@ interface AppWheelNavProps
   extends React.HTMLAttributes<HTMLElement>,
     VariantProps<typeof variants> {}
 
-const AppWheelNav: React.FC<AppWheelNavProps> = ({ className }) => {
+const AppWheelNav: React.FC<AppWheelNavProps> = () => {
   const router = useRouter();
+  const config = useRouterConfig();
   const wheelNav = useAppStore(useCallback((state) => state.wheelNav, []));
 
   const radius = 160;
@@ -128,6 +130,13 @@ const AppWheelNav: React.FC<AppWheelNavProps> = ({ className }) => {
     animationFrameId.current = requestAnimationFrame(updateRotation);
   };
 
+  const scrollToId = (id: string) => {
+    const target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
     // 휠 이벤트 리스너 등록
     if (circleRef.current) {
@@ -184,7 +193,9 @@ const AppWheelNav: React.FC<AppWheelNavProps> = ({ className }) => {
                     "border-gradient",
                     "absolute left-1/2 top-1/2 z-10 flex size-1/3 -translate-x-1/2 -translate-y-1/2 place-content-center place-items-center rounded-full",
                   )}
-                ></button>
+                >
+                  <span className="sr-only">메뉴 닫기</span>
+                </button>
                 <div
                   ref={circleRef}
                   className="relative size-full origin-center"
@@ -214,9 +225,6 @@ const AppWheelNav: React.FC<AppWheelNavProps> = ({ className }) => {
                       const y =
                         Math.sin((angle * Math.PI) / 180) * (radius * 0.7);
 
-                      // const top = radius + y - itemSize / 2;
-                      // const left = radius + x - itemSize / 2;
-
                       return (
                         <li
                           key={index}
@@ -228,8 +236,6 @@ const AppWheelNav: React.FC<AppWheelNavProps> = ({ className }) => {
                             width: `${itemSize}px`,
                             height: `${itemSize}px`,
                             transform: `translate(${x}px, ${y}px) rotate(${-rotation}deg)`,
-                            // top: `${top}px`,
-                            // left: `${left}px`,
                           }}
                         >
                           <button
@@ -237,9 +243,12 @@ const AppWheelNav: React.FC<AppWheelNavProps> = ({ className }) => {
                               if (item.external) {
                                 window.open(item.path, "_blank");
                               } else {
-                                router.push(item.path);
+                                if (config?.path !== "/") {
+                                  router.push(`/#${item.title}`);
+                                } else {
+                                  scrollToId(item.title);
+                                }
                               }
-
                               wheelNav.onClose();
                             }}
                             className="block w-full select-none text-center"

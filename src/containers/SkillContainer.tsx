@@ -3,6 +3,7 @@
 import BounceText from "@/components/skill/BounceText";
 import Marquee from "@/components/skill/Marquee";
 import SkillItem, { Skill } from "@/components/skill/SkillItem";
+import useDevice from "@/hooks/useDevice";
 import { gsap } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
@@ -174,6 +175,8 @@ const items: Skill[] = [
 const media = gsap.matchMedia();
 
 const SkillContainer = () => {
+  const { isMobile } = useDevice();
+
   const containerRef = useRef<HTMLDivElement>(null);
   const itemPosRefs = useRef<HTMLDivElement[]>([]);
   const itemRefs = useRef<HTMLDivElement[]>([]);
@@ -246,16 +249,18 @@ const SkillContainer = () => {
         className="relative z-[2] portrait:h-[3000px] landscape:h-[2000px]"
         ref={containerRef}
       >
-        <button
-          onClick={() => {
-            setReset(true);
-            setTimeout(() => setReset(false), 1000);
-          }}
-          className="absolute bottom-0 right-10 z-[20] text-white"
-        >
-          <IoRefreshOutline size={40} />
-          <span className="sr-only">위치 초기화</span>
-        </button>
+        {!isMobile && (
+          <button
+            onClick={() => {
+              setReset(true);
+              setTimeout(() => setReset(false), 1000);
+            }}
+            className="absolute bottom-0 right-10 z-[20] text-white"
+          >
+            <IoRefreshOutline size={40} />
+            <span className="sr-only">위치 초기화</span>
+          </button>
+        )}
         {items.map((item, index) => {
           return (
             <div
